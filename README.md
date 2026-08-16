@@ -4,8 +4,15 @@ Install [Dhito](https://dhito.io) — private, on-device semantic file search fo
 
 ```sh
 brew tap dhito-app/tap
+brew trust --cask dhito-app/tap/dhito
 brew install --cask dhito
 ```
+
+Homebrew 6.0 and later refuse to load a cask from a third-party tap until you
+explicitly trust it, so the middle command is required — without it, `brew
+install` stops with "Refusing to load cask … from untrusted tap". On older
+Homebrew versions `brew trust` does not exist; skip that line, the other two
+work unchanged.
 
 To update:
 
