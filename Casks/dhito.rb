@@ -1,6 +1,6 @@
 cask "dhito" do
-  version "0.4.21"
-  sha256 "a079fcf49819b95ac6ad45be6c0c4263425b2423a3f66dfdf2a224cc7462e6ea"
+  version "0.4.22"
+  sha256 "27414c7f1faaa8092ee1512477c26fdbbbd177e1f8dd5e06aec6a236b2e4eef1"
 
   # The DMG asset name is not versioned, but the release tag in the path is, so
   # each version resolves to its own immutable URL. Do not switch this to the
@@ -21,7 +21,7 @@ cask "dhito" do
   # stops Homebrew from treating a self-updated bundle as a corrupted install.
   auto_updates true
 
-  # Verified against the 0.4.21 DMG: Contents/MacOS/dhito is arm64-only, as are
+  # Verified against the 0.4.22 DMG: Contents/MacOS/dhito is arm64-only, as are
   # the bundled ffmpeg and ffprobe. An arm64-only binary cannot run under
   # Rosetta, so on an Intel Mac this would install cleanly and then fail to
   # launch. Fail at install time with a clear message instead.
