@@ -20,7 +20,6 @@ cask "dhito" do
   # Dhito ships a Tauri updater and updates itself in place. Declaring that here
   # stops Homebrew from treating a self-updated bundle as a corrupted install.
   auto_updates true
-
   # Verified against the 0.4.22 DMG: Contents/MacOS/dhito is arm64-only, as are
   # the bundled ffmpeg and ffprobe. An arm64-only binary cannot run under
   # Rosetta, so on an Intel Mac this would install cleanly and then fail to
@@ -29,6 +28,17 @@ cask "dhito" do
   depends_on macos: :ventura
 
   app "dhito.app"
+
+  # The index, models, and logs live outside the bundle and survive an ordinary
+  # uninstall — deliberately, so reinstalling does not force a multi-hour
+  # re-index. `brew uninstall --zap` is the way to reclaim that disk space.
+  zap trash: [
+    "~/Library/Application Support/com.dhito.app",
+    "~/Library/Caches/com.dhito.dhito",
+    "~/Library/Preferences/com.dhito.dhito.plist",
+    "~/Library/Saved Application State/com.dhito.dhito.savedState",
+    "~/Library/WebKit/com.dhito.dhito",
+  ]
 
   # What lands on disk, and what does not. Worth stating explicitly because the
   # DMG is not the whole story: the chat model is fetched on first use, so disk
@@ -53,15 +63,4 @@ cask "dhito" do
 
     Free for 14 days with no account and no card, then $4.99/month.
   EOS
-
-  # The index, models, and logs live outside the bundle and survive an ordinary
-  # uninstall — deliberately, so reinstalling does not force a multi-hour
-  # re-index. `brew uninstall --zap` is the way to reclaim that disk space.
-  zap trash: [
-    "~/Library/Application Support/com.dhito.app",
-    "~/Library/Caches/com.dhito.dhito",
-    "~/Library/Preferences/com.dhito.dhito.plist",
-    "~/Library/Saved Application State/com.dhito.dhito.savedState",
-    "~/Library/WebKit/com.dhito.dhito",
-  ]
 end

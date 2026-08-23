@@ -58,17 +58,35 @@ see that file for the required `HOMEBREW_TAP_TOKEN` secret.
 
 To bump by hand:
 
+Read the version from the latest release rather than typing one in, so this
+snippet cannot go stale the way a pinned number does:
+
 ```sh
-VERSION=0.4.22
+VERSION=$(gh release view --repo manzitwaal/ml-release --json tagName -q .tagName | sed 's/^v//')
 curl -sL -o /tmp/dhito.dmg \
   "https://github.com/manzitwaal/ml-release/releases/download/v${VERSION}/dhito-production.dmg"
 shasum -a 256 /tmp/dhito.dmg
 # then edit version + sha256 in Casks/dhito.rb and push
 ```
 
-Verify a change before pushing it:
+Verify a change before pushing it. Note that Homebrew rejects cask *file paths*
+outright — "Homebrew requires casks to be in a tap" — so `audit` and `install`
+have to address the cask by token, and only `style` accepts a path:
 
 ```sh
-brew audit --cask --online Casks/dhito.rb
-brew install --cask Casks/dhito.rb
+brew style Casks/dhito.rb              # lints the working copy, path is fine here
+brew audit --cask --online dhito-app/tap/dhito
+brew install --cask dhito-app/tap/dhito
+```
+
+`audit` and `install` read the tap Homebrew has cloned under
+`$(brew --repository)/Library/Taps/dhito-app/homebrew-tap`, not this checkout,
+and that clone only refreshes on `brew update`. So they validate what is
+*published*, not what you are about to push — run `brew style` on the file for
+the latter. To exercise unpushed changes end to end, point a tap at this
+directory instead:
+
+```sh
+brew untap dhito-app/tap
+brew tap dhito-app/tap "file://$(pwd)"
 ```
