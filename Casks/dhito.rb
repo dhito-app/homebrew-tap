@@ -1,6 +1,6 @@
 cask "dhito" do
-  version "0.4.28"
-  sha256 "b160d5cd290ce59ba29002c8fe89fc593b6c80a8dfa6acb4a9e0e5bea486aae1"
+  version "0.4.29"
+  sha256 "26bba26c41438f2268cca71965eb54a09863b8efd7205ccbae61a77290dbbb62"
 
   # The DMG asset name is not versioned, but the release tag in the path is, so
   # each version resolves to its own immutable URL. Do not switch this to the
